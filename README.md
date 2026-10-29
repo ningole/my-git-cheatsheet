@@ -1,123 +1,37 @@
 # Git Cheatsheet
 
-A quick reference for common Git commands.
+A practical, command-by-command guide to Git, from your first repository to
+merging branches and understanding Git's limitations. Commands use placeholders
+such as `<branch>` and `<file>`; replace them with your own names.
 
-## Set up Git
+## Pages
 
-```bash
-git config --global user.name "Your Name"
-git config --global user.email "you@example.com"
-git config --global init.defaultBranch main
-git config --global --list
-```
+1. [Getting started](docs/01-getting-started.md) — setup, init, clone, and status
+2. [Changes and commits](docs/02-changes-and-commits.md) — inspect, stage, and commit
+3. [Branches and history](docs/03-branches-and-history.md) — branch, merge prep, and rebase
+4. [Remotes and collaboration](docs/04-remotes-and-collaboration.md) — fetch, pull, and push
+5. [Merging branches](docs/05-merging.md) — merge strategies and conflict resolution
+6. [Undo and recovery](docs/06-undo-and-recovery.md) — restore, reset, revert, and reflog
+7. [Git limitations](docs/07-limitations.md) — what Git does not do well and safer alternatives
 
-Use `--global` to apply a setting to all repositories for your user. Omit it to
-configure only the current repository.
-
-## Start a repository
-
-```bash
-git init
-git clone <repository-url>
-```
-
-## Check repository status
+## Daily workflow
 
 ```bash
 git status
-git status --short
-git diff                 # Unstaged changes
-git diff --staged        # Staged changes
-git log --oneline --graph --decorate --all
-```
-
-## Stage and commit changes
-
-```bash
-git add <file>           # Stage one file
-git add .                # Stage changes in the current directory
-git add -p               # Interactively stage parts of changes
+git switch -c <topic-branch>
+git add -p
+git diff --staged
 git commit -m "Describe the change"
-git commit --amend       # Update the most recent commit
+git push -u origin <topic-branch>
 ```
 
-Amending changes a commit's history. Avoid amending commits that have already
-been shared with others.
+Check `git status` before destructive commands. Prefer `git revert` to undo
+changes already shared with others; use `git reset --hard` only when you intend
+to discard local work.
 
-## Branches
+## Official references
 
-```bash
-git branch                         # List local branches
-git switch -c <branch-name>        # Create and switch to a branch
-git switch <branch-name>           # Switch branches
-git branch -d <branch-name>        # Delete a merged branch
-git branch -D <branch-name>        # Force-delete a branch
-git merge <branch-name>            # Merge a branch into the current branch
-```
-
-## Remotes and synchronization
-
-```bash
-git remote -v
-git remote add origin <repository-url>
-git fetch origin
-git pull --ff-only
-git push -u origin <branch-name>   # Publish a branch and set its upstream
-git push
-```
-
-`git fetch` downloads remote changes without merging them. `git pull` fetches
-and integrates changes into the current branch.
-
-## Undo or recover changes
-
-```bash
-git restore <file>                 # Discard unstaged changes to a file
-git restore --staged <file>        # Unstage a file; keep its changes
-git revert <commit>                # Create a commit that reverses a commit
-git reflog                         # Find recent branch/HEAD positions
-```
-
-Use `git revert` to undo a commit that has been shared. `git reset` rewrites
-local history; use it carefully:
-
-```bash
-git reset --soft HEAD~1            # Undo commit; keep changes staged
-git reset HEAD~1                   # Undo commit; keep changes unstaged
-git reset --hard HEAD~1            # Discard commit and its changes
-```
-
-`git reset --hard` permanently discards uncommitted changes. Check `git status`
-before using it.
-
-## Stash temporary changes
-
-```bash
-git stash push -m "Work in progress"
-git stash list
-git stash pop                      # Reapply and remove the latest stash
-git stash apply                    # Reapply but keep the stash
-```
-
-## Tags
-
-```bash
-git tag                            # List tags
-git tag -a v1.0.0 -m "Release 1.0.0"
-git push origin v1.0.0
-git push origin --tags
-```
-
-## Ignore files
-
-Add file patterns to `.gitignore`, for example:
-
-```gitignore
-.env
-node_modules/
-*.log
-```
-
-Git does not track empty directories. If a file is already tracked, adding it
-to `.gitignore` will not untrack it; use `git rm --cached <file>` to stop
-tracking it while keeping the local file.
+- [Git documentation](https://git-scm.com/docs)
+- [Git tutorial](https://git-scm.com/docs/gittutorial)
+- [Git FAQ](https://git-scm.com/docs/gitfaq)
+- [Pro Git book](https://git-scm.com/book/en/v2)
